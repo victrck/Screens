@@ -10,7 +10,6 @@ import {
   ScrollView,
 } from "react-native";
 import Logo from "../../../assets/images/test.png";
-import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import SocialSignInButtons from "../../components/SocialSignInButtons";
 import { useNavigation } from "@react-navigation/native";

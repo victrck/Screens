@@ -1,29 +1,20 @@
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
 import React, { useEffect, useState } from "react";
 import {
-  Alert,
   View,
-  TextInput,
   Text,
-  Image,
   StyleSheet,
   Dimensions,
   ScrollView,
-  TouchableOpacity,
+  TextInput,
 } from "react-native";
-import CustomInput from "../../components/CustomInput";
 import CheckBox from "expo-checkbox";
-import CustomButton from "../../components/CustomButton";
-import SocialSignInButtons from "../../components/SocialSignInButtons";
-import { useNavigation } from "@react-navigation/native";
 import { useForm } from "react-hook-form";
-
-import Step1 from "./steps/Step1";
+import PhoneInput from "react-native-phone-number-input";
 
 const SignUpScreen = () => {
   const { register, setValue, handleSubmit } = useForm();
   const [error, setError] = useState(false);
-  const [accepted, setAccepted] = useState(false);
 
   const submitStep1 = (data) => {
     console.log(data);
@@ -70,18 +61,6 @@ const SignUpScreen = () => {
     register("color");
   }, [register]);
 
-  const isCloseToBottom = ({
-    layoutMeasurement,
-    contentOffset,
-    contentSize,
-  }) => {
-    const paddingToBottom = 20;
-    return (
-      layoutMeasurement.height + contentOffset.y >=
-      contentSize.height - paddingToBottom
-    );
-  };
-
   const [isSelected, setSelection] = useState(false);
 
   return (
@@ -92,6 +71,8 @@ const SignUpScreen = () => {
           onNext={handleSubmit(submitStep1)}
           nextBtnText="Próximo"
           errors={error}
+          nextBtnStyle={styles_button.container_PRIMARY}
+          nextBtnTextStyle={styles_button.text_TERTIARY}
         >
           <View style={styles.root}>
             <TextInput
@@ -103,35 +84,30 @@ const SignUpScreen = () => {
 
             <TextInput
               style={styles.input}
-              secureTextEntry
               label={"email"}
               placeholder={"Email"}
               onChangeText={(text) => setValue("email", text)}
             />
             <TextInput
               style={styles.input}
-              secureTextEntry
               label={"cpf"}
               placeholder={"CPF"}
               onChangeText={(text) => setValue("cpf", text)}
             />
-            <TextInput
-              style={styles.input}
-              secureTextEntry
-              label={"phone"}
+            <PhoneInput
+              containerStyle={styles.input_phone}
               placeholder={"Telefone"}
-              onChangeText={(text) => setValue("phone", text)}
+              defaultCode="BR"
+              onChangeFormattedText={(text) => setValue("phone", text)}
             />
             <TextInput
               style={styles.input}
-              secureTextEntry
               label={"birth_date"}
               placeholder={"Data de nascimento"}
               onChangeText={(text) => setValue("birth_date", text)}
             />
             <TextInput
               style={styles.input}
-              secureTextEntry
               label={"gender"}
               placeholder={"Gênero"}
               onChangeText={(text) => setValue("gender", text)}
@@ -143,25 +119,27 @@ const SignUpScreen = () => {
           onNext={handleSubmit(submitStep2)}
           nextBtnText="Próximo"
           errors={error}
+          previousBtnText="Voltar"
+          previousBtnStyle={styles_button.container_PRIMARY}
+          previousBtnTextStyle={styles_button.text_TERTIARY}
+          nextBtnStyle={styles_button.container_PRIMARY}
+          nextBtnTextStyle={styles_button.text_TERTIARY}
         >
           <View style={styles.root}>
             <TextInput
               style={styles.input}
-              secureTextEntry
               label={"postalcode_residence"}
               placeholder={"Digite seu CEP."}
               onChangeText={(text) => setValue("postalcode_residence", text)}
             />
             <TextInput
               style={styles.input}
-              secureTextEntry
               label={"number_residence"}
               placeholder={"Número da casa."}
               onChangeText={(text) => setValue("number_residence", text)}
             />
             <TextInput
               style={styles.input}
-              secureTextEntry
               label={"complement_residence"}
               placeholder={"Complemento do endereço."}
               onChangeText={(text) => setValue("complement_residence", text)}
@@ -173,6 +151,11 @@ const SignUpScreen = () => {
           onNext={handleSubmit(submitStep3)}
           nextBtnText="Próximo"
           errors={error}
+          previousBtnText="Voltar"
+          previousBtnStyle={styles_button.container_PRIMARY}
+          previousBtnTextStyle={styles_button.text_TERTIARY}
+          nextBtnStyle={styles_button.container_PRIMARY}
+          nextBtnTextStyle={styles_button.text_TERTIARY}
         >
           <View style={styles.root}>
             <TextInput
@@ -184,28 +167,24 @@ const SignUpScreen = () => {
 
             <TextInput
               style={styles.input}
-              secureTextEntry
               label={"license_plate"}
               placeholder={"Placa do Carro."}
               onChangeText={(text) => setValue("license_plate", text)}
             />
             <TextInput
               style={styles.input}
-              secureTextEntry
               label={"vehicle_model_id"}
               placeholder={"Modelo do carro."}
               onChangeText={(text) => setValue("vehicle_model_id", text)}
             />
             <TextInput
               style={styles.input}
-              secureTextEntry
               label={"year"}
               placeholder={"Ano do carro."}
               onChangeText={(text) => setValue("year", text)}
             />
             <TextInput
               style={styles.input}
-              secureTextEntry
               label={"color"}
               placeholder={"Cor do carro."}
               onChangeText={(text) => setValue("color", text)}
@@ -217,6 +196,11 @@ const SignUpScreen = () => {
           onNext={handleSubmit(submitStep4)}
           nextBtnText="Próximo"
           errors={error}
+          previousBtnText="Voltar"
+          previousBtnStyle={styles_button.container_PRIMARY}
+          previousBtnTextStyle={styles_button.text_TERTIARY}
+          nextBtnStyle={styles_button.container_PRIMARY}
+          nextBtnTextStyle={styles_button.text_TERTIARY}
         ></ProgressStep>
         <ProgressStep
           label="Politica de Privacidade"
@@ -224,6 +208,11 @@ const SignUpScreen = () => {
           nextBtnText="Próximo"
           errors={error}
           nextBtnDisabled={!isSelected}
+          previousBtnText="Voltar"
+          previousBtnStyle={styles_button.container_PRIMARY}
+          previousBtnTextStyle={styles_button.text_TERTIARY}
+          nextBtnStyle={styles_button.container_PRIMARY}
+          nextBtnTextStyle={styles_button.text_TERTIARY}
         >
           <View style={styles.container}>
             <Text style={styles.title}>Terms and conditions</Text>
@@ -318,7 +307,7 @@ const SignUpScreen = () => {
   );
 };
 
-const { width, height } = Dimensions.get("window");
+const { height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   containerk: {
@@ -399,6 +388,46 @@ const styles = StyleSheet.create({
     margin: 1,
     padding: 1,
   },
+  input_phone: {
+    backgroundColor: "white",
+    width: "100%",
+    borderColor: "#e8e8e8",
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginVertical: 5,
+    height: 60,
+    margin: 1,
+    padding: 1,
+  },
 });
 
+const styles_button = StyleSheet.create({
+  container: {
+    width: "100%",
+    padding: 15,
+    marginVertical: 5,
+    alignItems: "center",
+    borderRadius: 5,
+  },
+
+  container_PRIMARY: {
+    backgroundColor: "#3B71F3",
+  },
+  container_SECONDARY: {
+    borderColor: "#3B71F3",
+    borderWidth: 2,
+  },
+  container_TERTIARY: {},
+  text: {
+    fontWeight: "bold",
+    color: "white",
+  },
+  text_TERTIARY: {
+    color: "white",
+  },
+  text_SECONDARY: {
+    color: "blue",
+  },
+});
 export default SignUpScreen;
